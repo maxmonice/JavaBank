@@ -1,5 +1,3 @@
-Here is a polished, professional version of your README formatted for a GitHub repository or project documentation:
-
 🏦 Bank Account System
 A robust Java and SQL-based application designed for mastering Object-Oriented Programming (OOP) principles and relational database management.
 
