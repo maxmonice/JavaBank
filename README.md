@@ -19,7 +19,7 @@ A Java console-based banking application built with **Object-Oriented Programmin
 > Features may change as development continues.
 
 ## 🧰 Built With
-
+- **Visual Studio Code** - IDE used
 - **Java** — application logic and OOP
 - **MySQL / MariaDB** — account data storage
 - **JDBC** — Java-to-database connectivity
