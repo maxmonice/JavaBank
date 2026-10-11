@@ -166,7 +166,11 @@ When changing the database schema, update `database/setup.sql` and this README s
 
 ## 📄 License
 
-No license has been specified yet. Unless a license is added to the repository, others should not assume they have permission to redistribute or reuse the project.
+Polarity Bank is licensed under the MIT License.
+
+You are free to use, copy, modify, merge, publish, distribute, sublicense, and sell copies of this software, subject to the terms of the MIT License.
+
+See the LICENSE file for the full license text.
 
 ---
 
