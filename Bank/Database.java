@@ -74,10 +74,13 @@ public class Database {
                 stmt.setString(2, accountId);
                 int rowsUpdated = stmt.executeUpdate();
 
-                if (rowsUpdated == 1) {
+                if (rowsUpdated == 0) {
+                    System.out.println("Balance Update Failed: No Rows Changed!");
+                    return false;
+                } else if (rowsUpdated == 1) {
                     return true;
                 } else {
-                    System.out.println("Balance Update Failed: Account Not Found!");
+                    System.out.println("CRITICAL: Multiple Accounts Changed! " + rowsUpdated + " rows were affected. Please investigate!");
                     return false;
                 }
             }
