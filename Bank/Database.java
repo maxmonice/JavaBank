@@ -74,7 +74,7 @@ public class Database {
                 stmt.setString(2, accountId);
                 int rowsUpdated = stmt.executeUpdate();
 
-                if (rowsUpdated > 0) {
+                if (rowsUpdated == 1) {
                     return true;
                 } else {
                     System.out.println("Balance Update Failed: Account Not Found!");
