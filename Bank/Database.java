@@ -27,7 +27,7 @@ public class Database {
 
     public BankAccount verifyAccount(String accountId, int accountPin) {
 
-        String sql = "SELECT account_name, balance, account_id, pin " + "FROM accounts WHERE account_id = ?";
+        String sql = "SELECT account_name, balance, account_id, pin FROM accounts WHERE account_id = ?";
 
         try (Connection con = connect()) {
 
