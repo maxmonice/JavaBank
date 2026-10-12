@@ -27,7 +27,7 @@ public class Database {
 
     public BankAccount verifyAccount(String accountId, int accountPin) {
 
-        String sql = "SELECT account_name, balance, account_id " + "FROM accounts WHERE account_id = ? AND pin = ?";
+        String sql = "SELECT account_name, balance, account_id, pin " + "FROM accounts WHERE account_id = ?";
 
         try (Connection con = connect()) {
 
@@ -38,17 +38,27 @@ public class Database {
             try (PreparedStatement stmt = con.prepareStatement(sql)) {
 
                 stmt.setString(1, accountId);
-                stmt.setInt(2, accountPin);
 
                 try (ResultSet result = stmt.executeQuery()) {
 
                     if (result.next()) {
+                        int storedPin = result.getInt("pin");
+                        if(accountPin == storedPin) {
 
-                        String accountName = result.getString("account_name");
-                        double accountBalance = result.getDouble("balance");
-                        String id = result.getString("account_id");
+                            String accountName = result.getString("account_name");
+                            double accountBalance = result.getDouble("balance");
+                            String id = result.getString("account_id");
 
-                        return new BankAccount(accountName, accountBalance, id);
+                            return new BankAccount(accountName, accountBalance, id);
+                        }
+                        else{
+                            System.out.println("Wrong Pin Entered, Please Try Again");
+                            return null;
+                        }
+                    }
+                    else {
+                        System.out.println("No Account Found, Please Try Again!");
+                        return null;
                     }
                 }
             }
