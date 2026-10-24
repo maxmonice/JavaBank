@@ -25,7 +25,7 @@ public class Database {
         }
     }
 
-    public BankAccount verifyAccount(String accountId, int accountPin) {
+    public BankAccount verifyAccount(String accountId, String accountPin) {
 
         String sql = "SELECT account_name, balance, account_id, pin FROM accounts WHERE account_id = ?";
 
@@ -42,8 +42,8 @@ public class Database {
                 try (ResultSet result = stmt.executeQuery()) {
 
                     if (result.next()) {
-                        int storedPin = result.getInt("pin");
-                        if(accountPin == storedPin) {
+                        String storedPin = result.getString("pin");
+                        if(accountPin.equals(storedPin)) {
 
                             String accountName = result.getString("account_name");
                             double accountBalance = result.getDouble("balance");

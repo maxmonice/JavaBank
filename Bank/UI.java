@@ -24,8 +24,11 @@ public class UI {
         String accountId = sc.nextLine();
 
         System.out.print("Please Enter Your 6-Digit Pin: ");
-        int accountPin = sc.nextInt();
-        sc.nextLine();
+        String accountPin = sc.nextLine();
+        if (!accountPin.matches("\\d{6}")) {
+            System.out.println("PIN must contain exactly 6 digits.");
+            return null;
+        }
 
         return db.verifyAccount(accountId, accountPin);
     }
