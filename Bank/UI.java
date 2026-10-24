@@ -40,8 +40,7 @@ public class UI {
             System.out.println("4.) Logout");
             System.out.print("Please Choose A Process [1-4]: ");
 
-            boolean isInt = sc.hasNextInt();
-            if(isInt) {
+            if(sc.hasNextInt()) {
                 int choice = sc.nextInt();
                 switch (choice) {
 
@@ -51,12 +50,20 @@ public class UI {
 
                 case 2:
                     System.out.print("Please Enter An Amount You Would Like To Deposit: ");
-                    account.deposit(sc.nextDouble());
+                    if(sc.hasNextDouble()) account.deposit(sc.nextDouble());
+                    else {
+                        System.out.println("Please Enter a Numeric Amount!");
+                        sc.nextLine();
+                    }
                     break;
 
                 case 3:
                     System.out.print("Please Enter An Amount You Would Like To Withdraw: ");
-                    account.withdraw(sc.nextDouble());
+                    if(sc.hasNextDouble()) account.withdraw(sc.nextDouble());
+                    else {
+                        System.out.println("Please Enter a Numeric Amount!");
+                        sc.nextLine();
+                    }
                     break;
 
                 case 4:
