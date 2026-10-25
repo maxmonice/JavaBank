@@ -1,4 +1,4 @@
-# 🏦 Polarity Bank
+# 🏦 JavaBank
 
 A Java console-based banking application built with **Object-Oriented Programming (OOP)** and **MySQL**. This project is designed for learning and demonstrating basic banking operations, database connectivity, and organized Java code.
 
@@ -31,7 +31,7 @@ A Java console-based banking application built with **Object-Oriented Programmin
 ## 📁 Project Structure
 
 ```text
-PolarityBank/
+JavaBank/
 ├── src/                    # Java source code
 │   └── Bank/               # Banking classes (e.g., UI, Database, BankAccount)
 ├── database/
@@ -58,7 +58,7 @@ Make sure you have:
 
 ```bash
 git clone <YOUR_REPOSITORY_URL>
-cd PolarityBank
+cd JavaBank
 ```
 
 Replace `<YOUR_REPOSITORY_URL>` with the actual Git repository URL.
@@ -76,7 +76,7 @@ Run the SQL script in `database/setup.sql`.
 From the MySQL shell, run the command below, replacing the path with the actual location of your file:
 
 ```sql
-SOURCE C:/path/to/PolarityBank/database/setup.sql;
+SOURCE C:/path/to/JavaBank/database/setup.sql;
 ```
 
 Use forward slashes in the path, or escape backslashes.
@@ -166,7 +166,7 @@ When changing the database schema, update `database/setup.sql` and this README s
 
 ## 📄 License
 
-Polarity Bank is licensed under the MIT License.
+JavaBank is licensed under the MIT License.
 
 You are free to use, copy, modify, merge, publish, distribute, sublicense, and sell copies of this software, subject to the terms of the MIT License.
 
