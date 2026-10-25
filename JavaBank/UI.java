@@ -1,4 +1,4 @@
-package Bank;
+package JavaBank;
 import java.util.Scanner;
 
 public class UI {
@@ -36,7 +36,7 @@ public class UI {
     private void showAccountMenu(BankAccount account) {
         boolean isLoggedIn = true;
         while(isLoggedIn) {
-            System.out.println("\n===== Welcome To Polarity Bank! =====");
+            System.out.println("\n===== Welcome To JavaBank! =====");
             System.out.println("1.) Check Account");
             System.out.println("2.) Deposit Money");
             System.out.println("3.) Withdraw Money");
@@ -53,7 +53,7 @@ public class UI {
 
                 case 2:
                     System.out.print("Please Enter An Amount You Would Like To Deposit: ");
-                    if(sc.hasNextDouble()) account.deposit(sc.nextDouble());
+                    if(sc.hasNextBigDecimal()) account.deposit(sc.nextBigDecimal());
                     else {
                         System.out.println("Please Enter a Numeric Amount!");
                         sc.nextLine();
@@ -62,7 +62,7 @@ public class UI {
 
                 case 3:
                     System.out.print("Please Enter An Amount You Would Like To Withdraw: ");
-                    if(sc.hasNextDouble()) account.withdraw(sc.nextDouble());
+                    if(sc.hasNextBigDecimal()) account.withdraw(sc.nextBigDecimal());
                     else {
                         System.out.println("Please Enter a Numeric Amount!");
                         sc.nextLine();

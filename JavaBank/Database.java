@@ -1,5 +1,6 @@
-package Bank;
+package JavaBank;
 
+import java.math.BigDecimal;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -46,7 +47,7 @@ public class Database {
                         if(accountPin.equals(storedPin)) {
 
                             String accountName = result.getString("account_name");
-                            double accountBalance = result.getDouble("balance");
+                            BigDecimal accountBalance = result.getBigDecimal("balance");
                             String id = result.getString("account_id");
 
                             return new BankAccount(accountName, accountBalance, id);
@@ -70,7 +71,7 @@ public class Database {
         return null;
     }
 
-    public boolean updateBalance(String accountId, double newBalance) {
+    public boolean updateBalance(String accountId, BigDecimal newBalance) {
         String sql = "UPDATE accounts SET balance = ? WHERE account_id = ?";
 
         try (Connection con = connect()) {
@@ -80,7 +81,7 @@ public class Database {
             }
 
             try (PreparedStatement stmt = con.prepareStatement(sql)) {
-                stmt.setDouble(1, newBalance);
+                stmt.setBigDecimal(1, newBalance);
                 stmt.setString(2, accountId);
                 int rowsUpdated = stmt.executeUpdate();
 

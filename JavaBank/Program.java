@@ -1,4 +1,4 @@
-package Bank;
+package JavaBank;
 
 public class Program {
     static UI entry = new UI();

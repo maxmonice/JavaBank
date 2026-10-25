@@ -1,14 +1,16 @@
-package Bank;
+package JavaBank;
+import java.math.BigDecimal;
 
 public class BankAccount {
     static Database db = new Database();
 
     private String accountName;
-    private double accountBalance;
+    private BigDecimal accountBalance;
     private String accountId;
+    private static final BigDecimal maintainingBalance = new BigDecimal("3000");
 
     // Parameterized Constructor
-    public BankAccount(String accountName, double accountBalance, String accountId) {
+    public BankAccount(String accountName, BigDecimal accountBalance, String accountId) {
         this.accountName = accountName;
         this.accountBalance = accountBalance;
         this.accountId = accountId;
@@ -25,7 +27,7 @@ public class BankAccount {
 
     }
 
-    private void setAccountBalance(double accountBalance) {
+    private void setAccountBalance(BigDecimal accountBalance) {
         this.accountBalance = accountBalance;
         return;
     }
@@ -39,7 +41,7 @@ public class BankAccount {
         return accountName;
     }
 
-    public double getAccountBalance() {
+    public BigDecimal getAccountBalance() {
         return accountBalance;
     }
 
@@ -57,14 +59,14 @@ public class BankAccount {
         setAccountId(accountId);
     }
 
-    public void deposit(double amount) {
-        double total = getAccountBalance() + amount;
-        if (amount <= 0) {
+    public void deposit(BigDecimal deposit) {
+        BigDecimal total = getAccountBalance().add(deposit);
+        if (deposit.compareTo(BigDecimal.ZERO) <= 0) {
             System.out.println("Please Enter An Amount Greater Than 0!");
             return;
         }
 
-        if (total < 3000) {
+        if (total.compareTo(maintainingBalance) < 0) {
             System.out.println("Your Current Balance is " + getAccountBalance());
             System.out.println("Your Balance Must Be At Least 3000!");
             return;
@@ -77,16 +79,15 @@ public class BankAccount {
         }
     }
 
-    public void withdraw(double amount) {
-        double total = getAccountBalance() - amount;
-        double maintainingBalance = 3000;
+    public void withdraw(BigDecimal withdrawal) {
+        BigDecimal total = getAccountBalance().subtract(withdrawal);
 
-        if (amount <= 0) {
+        if (withdrawal.compareTo(BigDecimal.ZERO) <= 0) {
             System.out.println("Please Enter An Amount Greater Than 0!");
             return;
         }
 
-        if (total < maintainingBalance) {
+        if (total.compareTo(maintainingBalance) < 0) {
             System.out.println("Your Current Balance is " + getAccountBalance());
             System.out.println("Your Withdrawal Would Violate The Maintaining Balance Of " + maintainingBalance + "!");
             return;
