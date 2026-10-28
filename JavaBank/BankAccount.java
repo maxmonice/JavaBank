@@ -60,11 +60,11 @@ public class BankAccount {
     }
 
     public void deposit(BigDecimal deposit) {
-        BigDecimal total = getAccountBalance().add(deposit);
         if (deposit.compareTo(BigDecimal.ZERO) <= 0) {
             System.out.println("Please Enter An Amount Greater Than 0!");
             return;
         }
+        BigDecimal total = getAccountBalance().add(deposit);
 
         if (total.compareTo(maintainingBalance) < 0) {
             System.out.println("Your Current Balance is " + getAccountBalance());
@@ -80,12 +80,12 @@ public class BankAccount {
     }
 
     public void withdraw(BigDecimal withdrawal) {
-        BigDecimal total = getAccountBalance().subtract(withdrawal);
 
         if (withdrawal.compareTo(BigDecimal.ZERO) <= 0) {
             System.out.println("Please Enter An Amount Greater Than 0!");
             return;
         }
+        BigDecimal total = getAccountBalance().subtract(withdrawal);
 
         if (total.compareTo(maintainingBalance) < 0) {
             System.out.println("Your Current Balance is " + getAccountBalance());
