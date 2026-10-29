@@ -1,179 +1,210 @@
-# 🏦 JavaBank
+# Polarity Bank
 
-A Java console-based banking application built with **Object-Oriented Programming (OOP)** and **MySQL**. This project is designed for learning and demonstrating basic banking operations, database connectivity, and organized Java code.
+A Java console-based banking application built with object-oriented programming (OOP), JDBC, and MariaDB/MySQL. The project is being developed as a practical way to learn Java, database integration, build tooling, and authentication security.
 
 > **Status:** In development  
-> **Note:** This is an educational project, not production-ready banking software. Do not use real account credentials or financial data.
+> **Purpose:** Educational project. It is not production-ready banking software. Do not use real account credentials or financial data.
 
----
+## Current Features
 
-## ✨ Features
+- Account verification using an account ID and PIN
+- Balance inquiry
+- Deposit and withdrawal workflows
+- Java-to-database connectivity through JDBC
+- Parameterized SQL queries with prepared statements
+- Monetary values represented with `BigDecimal`
+- Database setup script with a six-digit PIN format constraint
+- Maven-based dependency management and build workflow
 
-- **Account verification** using an account ID and PIN
-- **Balance inquiry** to view an account's current balance
-- **Deposit and withdrawal** workflows
-- **MySQL database integration** through JDBC
-- **Prepared statements** for parameterized SQL queries
-- **Reusable database setup script** for contributors
+Features and implementation details may change as development continues.
 
-> Features may change as development continues.
+## Tech Stack
 
-## 🧰 Built With
-- **Visual Studio Code** - IDE used
 - **Java** — application logic and OOP
-- **MySQL / MariaDB** — account data storage
+- **Maven** — dependency management and build lifecycle
+- **MariaDB / MySQL** — account data storage
 - **JDBC** — Java-to-database connectivity
+- **MariaDB Connector/J or MySQL Connector/J** — database driver, as configured in `pom.xml`
 - **XAMPP** — local database environment
-- **MySQL Connector/J** — JDBC driver
 
----
-
-## 📁 Project Structure
+## Project Structure
 
 ```text
-JavaBank/
-├── src/                    # Java source code
-│   └── Bank/               # Banking classes (e.g., UI, Database, BankAccount)
+java-bank/
+├── pom.xml
 ├── database/
-│   └── setup.sql           # Creates the database and accounts table
-├── lib/                    # Optional: locally stored JDBC driver
+│   └── setup.sql
+├── src/
+│   └── main/
+│       └── java/
+│           └── JavaBank/
+│               ├── Program.java
+│               ├── UI.java
+│               ├── BankAccount.java
+│               └── Database.java
+├── .gitignore
 └── README.md
 ```
 
-*Adjust this example if your repository uses a different folder layout.*
+The class names shown are representative; adjust this list if the actual source files differ. Maven generates build output in `target/`, which should not be committed to Git.
 
----
-
-## 🚀 Getting Started
+## Getting Started
 
 ### 1. Install the requirements
 
-Make sure you have:
+Install:
 
-- [Java JDK](https://www.oracle.com/java/technologies/downloads/) installed
-- [XAMPP](https://www.apachefriends.org/) or another MySQL/MariaDB server
-- [MySQL Connector/J](https://dev.mysql.com/downloads/connector/j/) available to your Java project
+- [Java JDK](https://www.oracle.com/java/technologies/downloads/)
+- [Apache Maven](https://maven.apache.org/download.cgi)
+- [XAMPP](https://www.apachefriends.org/) or another compatible MariaDB/MySQL server
+- Git, if you want to clone the repository
+
+Verify Java and Maven are available in your terminal:
+
+```powershell
+java -version
+mvn -version
+```
+
+If you recently changed Windows environment variables, restart VS Code and its terminals so they inherit the updated `PATH`.
 
 ### 2. Clone the repository
 
 ```bash
 git clone <YOUR_REPOSITORY_URL>
-cd JavaBank
+cd java-bank
 ```
 
-Replace `<YOUR_REPOSITORY_URL>` with the actual Git repository URL.
+Replace `<YOUR_REPOSITORY_URL>` with the repository's actual URL and adjust the directory name if necessary.
 
 ### 3. Start the database server
 
-If you're using XAMPP, open the XAMPP Control Panel and start **MySQL**.
+For a typical XAMPP setup, open the XAMPP Control Panel and start **MySQL** (the service may be MariaDB underneath).
 
 ### 4. Set up the database
 
-Run the SQL script in `database/setup.sql`.
+Run the SQL script at `database/setup.sql`.
 
-**Option A — MySQL command-line client**
-
-From the MySQL shell, run the command below, replacing the path with the actual location of your file:
+**Using the MySQL/MariaDB command-line client:**
 
 ```sql
-SOURCE C:/path/to/JavaBank/database/setup.sql;
+SOURCE C:/path/to/java-bank/database/setup.sql;
 ```
 
-Use forward slashes in the path, or escape backslashes.
+Replace the example path with the real path to the script. Forward slashes are convenient in Windows SQL client paths.
 
-**Option B — phpMyAdmin**
+**Using phpMyAdmin:**
 
-1. Open phpMyAdmin in your browser (commonly `http://localhost/phpmyadmin`).
-2. Select the **SQL** tab.
-3. Copy the contents of `database/setup.sql` into the editor.
-4. Click **Go** to execute the script.
+1. Open `http://localhost/phpmyadmin` (if that is the address for your local setup).
+2. Open the **SQL** tab.
+3. Paste the contents of `database/setup.sql`.
+4. Execute the script.
 
-The script creates the `Bank` database and the `accounts` table if they do not already exist. It does not create sample accounts.
+The script creates the `bank` database and `accounts` table if they do not already exist. It does not insert sample accounts or intentionally delete existing data.
+
+> **Important:** `CREATE TABLE IF NOT EXISTS` does not change a table that already exists. If you are updating an older database schema, use a deliberate migration or alter the existing table separately. Do not assume rerunning this script adds the new constraint to an existing table.
 
 ### 5. Configure the database connection
 
-Check the connection settings in your Java `Database` class. For a typical local XAMPP setup, they may look like:
+Check the JDBC URL and credentials in the project's database connection code. A local setup may resemble:
 
 ```java
-private String url = "jdbc:mysql://localhost:3306/Bank";
+private String url = "jdbc:mariadb://localhost:3306/bank";
 private String username = "root";
 private String password = "";
 ```
 
-These are common local defaults, **not universal settings**. Update the host, port, username, and password to match your own MySQL configuration. Never commit real passwords or secrets to Git.
+Use the URL scheme that matches the JDBC driver declared in `pom.xml` (`jdbc:mariadb:` for MariaDB Connector/J or `jdbc:mysql:` for MySQL Connector/J). The username, password, host, and port above are only examples; configure them for your own database.
 
-### 6. Configure JDBC in your IDE
+Do not commit real database credentials, PIN peppers, or other secrets to Git. Prefer environment variables or another secrets-management mechanism.
 
-Make sure the MySQL Connector/J JAR is included in the project's classpath or build configuration. The exact steps depend on your IDE and project structure.
+### 6. Build and run with Maven
 
-### 7. Run the application
+Maven reads `pom.xml` to manage dependencies and execute the project's build lifecycle. It downloads declared dependencies into the local Maven repository, so the project generally does not need a manually maintained `lib/` folder for those dependencies.
 
-Run the class that contains your application's `main` method from your IDE or configured Java build setup.
+From the directory containing `pom.xml`, run:
 
----
+**Compile and run the application:**
 
-## 🗄️ Database Schema
+```powershell
+mvn org.codehaus.mojo:exec-maven-plugin:3.5.0:java "-Dexec.mainClass=JavaBank.Program"
+```
 
-The setup script creates the following table:
+This Maven goal compiles the project as needed and runs `JavaBank.Program` using Maven's runtime classpath. It is not the same as creating a distributable JAR.
 
-### `accounts`
+**Compile and package the project:**
+
+```powershell
+mvn package
+```
+
+Maven compiles the source, runs tests if configured, and packages the application into a JAR under `target/`. The exact JAR name is based on the artifact ID and version in `pom.xml`. The `package` command does not automatically run the banking application, and a normal JAR is not a snapshot of the whole project or its database.
+
+If a command fails, check that the terminal is in the project directory containing `pom.xml`, Java and Maven are on `PATH`, and the database is running when the application needs it.
+
+## Database Schema
+
+The current setup script creates this table:
 
 | Column | Type | Purpose |
 |---|---|---|
-| `account_id` | `VARCHAR(36)` | Unique account identifier and primary key |
+| `account_id` | `VARCHAR(20)` | Account identifier and primary key |
 | `account_name` | `VARCHAR(100)` | Account holder's name; required |
-| `pin` | `INT` | PIN field matching the current Java implementation |
-| `balance` | `DECIMAL(15, 2)` | Account balance, defaulting to `0.00` |
-| `created_at` | `TIMESTAMP` | Time the row was created |
+| `pin` | `VARCHAR(6)` | Currently stores a six-digit PIN as text |
+| `balance` | `DECIMAL(12, 2)` | Account balance, defaulting to `0.00` |
 
-The schema also includes a balance check constraint intended to prevent negative balances on MySQL versions that enforce `CHECK` constraints.
+The schema uses `utf8mb4` with `utf8mb4_general_ci` and the InnoDB storage engine.
 
-### Important database notes
+### PIN format constraint
 
-- The `pin` column is an integer to match the current implementation. This does not preserve leading zeros. Consider storing PINs as strings and, for a more secure design, storing a salted password hash instead of a raw PIN.
-- `DECIMAL(15, 2)` is appropriate for exact decimal storage, but Java code should ideally use `BigDecimal` rather than `double` for monetary calculations.
-- `CREATE TABLE IF NOT EXISTS` does not update an existing table if the schema changes. Review migrations before applying future schema changes.
-- The setup script does not drop existing data.
+The table includes:
+
+```sql
+CONSTRAINT chk_pin_format
+    CHECK (pin REGEXP '^[0-9]{6}$')
+```
+
+This database-level check is intended to restrict `pin` to exactly six numeric characters. Storing the PIN as `VARCHAR(6)` rather than an integer also preserves leading zeros, such as `004281`.
+
+Application-side validation should still be used. Database constraints are an additional layer, not a replacement for validating user input.
+
+**Planned security change:** once Argon2id is implemented, the database should store the encoded password/PIN hash, not the raw six-digit PIN. The current six-digit format constraint will then no longer apply to the hash column. The schema and Java authentication code will need to be updated together—for example, by using a column such as `pin_hash VARCHAR(255)` and removing or replacing `chk_pin_format`. Plan this as a schema migration rather than assuming `CREATE TABLE IF NOT EXISTS` will update existing databases.
+
+## Security Roadmap
+
+The project is still in development. Planned improvements include:
+
+- [ ] **Argon2id PIN hashing** — replace plaintext PIN storage with a salted, deliberately expensive password hash using a maintained library managed by Maven.
+- [ ] **Unique random salts** — generate a different cryptographically secure salt for each account PIN hash. The salt is stored with the encoded hash and does not need to be secret.
+- [ ] **Optional pepper from configuration** — if implemented, keep the pepper outside the database and source control, such as from environment configuration. A pepper must never be committed to the repository.
+- [ ] **Login rate limiting and temporary lockouts** — limit repeated failed PIN attempts to reduce automated guessing of six-digit PINs. Track attempts in a way that cannot be bypassed simply by restarting the application.
+- [ ] **Safer secrets configuration** — remove hard-coded database credentials and avoid committing secrets.
+- [ ] **Database transaction and input validation review** — make money movement operations atomic and validate account state and transaction amounts.
+- [ ] **Automated tests and improved error handling** — cover authentication, invalid inputs, and database failures.
+
+These items are planned work, not claims that the protections have already been implemented. Argon2id protects stored PIN verifiers, but it does not by itself prevent online guessing; rate limiting and careful authentication logic remain important. A six-digit PIN has only one million possible combinations, so it requires particularly strict attempt controls.
+
+## Development Notes
+
+- Use `BigDecimal` for monetary calculations rather than binary floating-point types such as `double`.
+- Use prepared statements for SQL queries that include user input.
+- Close JDBC resources reliably, for example with try-with-resources.
+- Never store real financial data in this educational project.
+- When changing the schema, update `database/setup.sql`, the Java database/authentication code, and this README together.
+- Keep generated files such as `target/`, compiled `.class` files, and local secrets out of Git.
+
+## Contributing
+
+1. Clone the repository and create a branch for your change.
+2. Make a focused change.
+3. Run the application and relevant tests locally.
+4. Update documentation and SQL setup when behavior or schema changes.
+5. Commit and push your branch.
+
+## License
+
+No license has been specified yet. Unless a license is added to the repository, others should not assume they have permission to redistribute or reuse this project.
 
 ---
 
-## 🔐 Security & Project Limitations
-
-This project is for educational use. Before considering any real-world use, it would need significant security and reliability work, including:
-
-- Secure PIN hashing and authentication protections
-- Transaction-safe deposit and withdrawal operations
-- Validation for amounts and account state
-- Proper connection and resource management
-- Secrets management instead of hard-coded credentials
-- Logging, error handling, and automated tests
-
-Do not use this project to store real financial information.
-
----
-
-## 🤝 Contributing
-
-1. Clone the repository.
-2. Create a branch for your change.
-3. Make and test your changes locally.
-4. Commit and push your branch.
-5. Open a pull request if the project uses pull requests.
-
-When changing the database schema, update `database/setup.sql` and this README so other contributors can reproduce the setup.
-
----
-
-## 📄 License
-
-JavaBank is licensed under the MIT License.
-
-You are free to use, copy, modify, merge, publish, distribute, sublicense, and sell copies of this software, subject to the terms of the MIT License.
-
-See the LICENSE file for the full license text.
-
----
-
-<p align="center">
-  Made for learning Java, OOP, and database integration.
-</p>
+Made for learning Java, OOP, SQL, and secure application development.
