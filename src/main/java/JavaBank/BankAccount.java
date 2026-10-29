@@ -103,9 +103,9 @@ public class BankAccount {
     }
 
     public void displayInformation() {
-        System.out.println(getAccountName());
-        System.out.println(getAccountBalance());
-        System.out.println(getAccountId());
+        System.out.println("Account Name: " +getAccountName());
+        System.out.println("Account Balance: " +getAccountBalance());
+        System.out.println("Account ID: " + getAccountId());
 
     }
 
