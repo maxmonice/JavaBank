@@ -20,7 +20,7 @@ Features and implementation details may change as development continues.
 
 ## Tech Stack
 
-- **Java** — application logic and OOP
+- **Java 25 LTS** — application logic and OOP
 - **Maven** — dependency management and build lifecycle
 - **MariaDB / MySQL** — account data storage
 - **JDBC** — Java-to-database connectivity
@@ -54,7 +54,7 @@ The class names shown are representative; adjust this list if the actual source 
 
 Install:
 
-- [Java JDK](https://www.oracle.com/java/technologies/downloads/)
+- [Java 25 JDK (LTS)](https://www.oracle.com/java/technologies/downloads/)
 - [Apache Maven](https://maven.apache.org/download.cgi)
 - [XAMPP](https://www.apachefriends.org/) or another compatible MariaDB/MySQL server
 - Git, if you want to clone the repository
