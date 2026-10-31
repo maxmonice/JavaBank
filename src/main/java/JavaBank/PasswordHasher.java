@@ -1,3 +1,4 @@
+
 package JavaBank;
 
 import org.bouncycastle.crypto.generators.Argon2BytesGenerator;
@@ -5,26 +6,33 @@ import org.bouncycastle.crypto.params.Argon2Parameters;
 
 import java.security.SecureRandom;
 import java.util.Base64;
+import java.util.Arrays;
 
+import de.mkammerer.argon2.Argon2;
+import de.mkammerer.argon2.Argon2Factory;
 
 public class PasswordHasher {
+
     private static final int SALT_LENGTH = 16;
     private static final int HASH_LENGTH = 32;
 
     private static final int ITERATIONS = 2;
-    private static final int MEMORY = 19456; // 19 MiB or 19456 KiB
+    private static final int MEMORY = 19456;
     private static final int PARALLELISM = 1;
     private static final int VERSION = Argon2Parameters.ARGON2_VERSION_13;
-    private static final SecureRandom secureRandom = new SecureRandom();
+
+    private static final SecureRandom SECURE_RANDOM = new SecureRandom();
+
+    private static final Argon2 ARGON2 = Argon2Factory.create(Argon2Factory.Argon2Types.ARGON2id);
 
     private static byte[] generateSalt() {
         byte[] salt = new byte[SALT_LENGTH];
-        secureRandom.nextBytes(salt);
+        SECURE_RANDOM.nextBytes(salt);
         return salt;
     }
 
-
     private static byte[] hashPassword(char[] password, byte[] salt) {
+
         Argon2Parameters parameters = new Argon2Parameters.Builder(
             Argon2Parameters.ARGON2_id)
             .withVersion(VERSION)
@@ -43,27 +51,60 @@ public class PasswordHasher {
         return hash;
     }
 
+    public static String encodeHash(String password) {
+
+        byte[] salt = generateSalt();
+        char[] passwordChars = password.toCharArray();
+        byte[] hashedPassword = null;
+
+        try {
+            hashedPassword = hashPassword(passwordChars, salt);
+
+            String encodedSalt = Base64.getEncoder()
+                .withoutPadding()
+                .encodeToString(salt);
+
+            String encodedHash = Base64.getEncoder()
+                .withoutPadding()
+                .encodeToString(hashedPassword);
+
+            StringBuilder phc = new StringBuilder();
+
+            phc.append("$argon2id");
+            phc.append("$v=").append(VERSION);
+            phc.append("$m=").append(MEMORY)
+                .append(",t=").append(ITERATIONS)
+                .append(",p=").append(PARALLELISM);
+            phc.append("$").append(encodedSalt);
+            phc.append("$").append(encodedHash);
+
+            return phc.toString();
+
+        } finally {
+            ARGON2.wipeArray(passwordChars);
+
+            if (hashedPassword != null) {
+                Arrays.fill(hashedPassword, (byte) 0);
+            }
+        }
+    }
 
     public static boolean verifyPassword(String password, String storedPassword) {
+        char[] passwordChars = password.toCharArray();
 
-        return false;
+        try {
+            return ARGON2.verify(storedPassword, passwordChars);
+        } finally {
+            ARGON2.wipeArray(passwordChars);
+        }
     }
 
-    public static String encodeHash(String password) {
-        byte[] salt = generateSalt();
-        byte[] hashedPassword = hashPassword(password.toCharArray(), salt);
-        StringBuilder phc = new StringBuilder();
-        phc.append("$argon2id");
-        phc.append("$v=19");
-        phc.append("$m=65536,t=3,p=4");
-        phc.append("$").append(Base64.getEncoder().withoutPadding().encodeToString(salt));
-        phc.append("$").append(Base64.getEncoder().withoutPadding().encodeToString(hashedPassword));
+    public static void main(String[] args) {
 
-        return phc.toString();
-    }
-    
-    public static void main(String[]args){
+        String hash = encodeHash("password123");
 
-        System.out.println(encodeHash("Canadabois"));
+        System.out.println(hash);
+        System.out.println(verifyPassword("password123", hash));
+        System.out.println(verifyPassword("wrongpassword", hash));
     }
 }
