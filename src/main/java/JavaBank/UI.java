@@ -5,7 +5,7 @@ public class UI {
     private static final Scanner sc = new Scanner(System.in);
     static Database db = new Database();
 
-    public void program() {
+    public void startBankingInterface() {
         boolean isRunning = true;
         while (isRunning) {
             BankAccount account = login();
@@ -16,6 +16,10 @@ public class UI {
                 showAccountMenu(account);
             }
         }
+    }
+
+    private BankAccount signup() {
+        
     }
     private BankAccount login() {
         System.out.println("===== Welcome To Polarity Bank! =====");
@@ -30,7 +34,7 @@ public class UI {
             return null;
         }
 
-        return db.verifyAccount(accountId, accountPin);
+        return db.authenticateAccount(accountId, accountPin);
     }
 
     private void showAccountMenu(BankAccount account) {
@@ -48,7 +52,7 @@ public class UI {
                 switch (choice) {
 
                 case 1:
-                    account.displayInformation();
+                    account.displayAccountDetails();
                     break;
 
                 case 2:

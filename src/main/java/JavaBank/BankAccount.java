@@ -71,7 +71,7 @@ public class BankAccount {
             System.out.println("Your Balance Must Be At Least 3000!");
             return;
         }
-        if (db.updateBalance(accountId, total)) {
+        if (db.updateAccountBalance(accountId, total)) {
             setAccountBalance(total);
             System.out.println("Your Balance Is Now " + total + "!");
         } else {
@@ -93,7 +93,7 @@ public class BankAccount {
             return;
 
         }
-        if (db.updateBalance(accountId, total)) {
+        if (db.updateAccountBalance(accountId, total)) {
             setAccountBalance(total);
             System.out.println("Your Balance Is Now " + total + "!");
         } else {
@@ -102,7 +102,7 @@ public class BankAccount {
 
     }
 
-    public void displayInformation() {
+    public void displayAccountDetails() {
         System.out.println("Account Name: " +getAccountName());
         System.out.println("Account Balance: " +getAccountBalance());
         System.out.println("Account ID: " + getAccountId());
@@ -110,4 +110,3 @@ public class BankAccount {
     }
 
 }
-

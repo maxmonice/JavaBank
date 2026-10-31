@@ -31,7 +31,7 @@ public class PasswordHasher {
         return salt;
     }
 
-    private static byte[] hashPassword(char[] password, byte[] salt) {
+    private static byte[] derivePasswordHash(char[] password, byte[] salt) {
 
         Argon2Parameters parameters = new Argon2Parameters.Builder(
             Argon2Parameters.ARGON2_id)
@@ -51,14 +51,14 @@ public class PasswordHasher {
         return hash;
     }
 
-    public static String encodeHash(String password) {
+    public static String hashAndEncodePassword(String password) {
 
         byte[] salt = generateSalt();
         char[] passwordChars = password.toCharArray();
         byte[] hashedPassword = null;
 
         try {
-            hashedPassword = hashPassword(passwordChars, salt);
+            hashedPassword = derivePasswordHash(passwordChars, salt);
 
             String encodedSalt = Base64.getEncoder()
                 .withoutPadding()
@@ -101,7 +101,7 @@ public class PasswordHasher {
 
     public static void main(String[] args) {
 
-        String hash = encodeHash("password123");
+        String hash = hashAndEncodePassword("password123");
 
         System.out.println(hash);
         System.out.println(verifyPassword("password123", hash));

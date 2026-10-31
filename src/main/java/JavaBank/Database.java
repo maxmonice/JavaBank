@@ -13,7 +13,7 @@ public class Database {
     private String username = "root";
     private String password = "";
 
-    public Connection connect() {
+    public Connection openConnection() {
 
         try {
             Connection con = DriverManager.getConnection(url, username, password);
@@ -26,11 +26,11 @@ public class Database {
         }
     }
 
-    public BankAccount verifyAccount(String accountId, String accountPin) {
+    public BankAccount authenticateAccount(String accountId, String accountPin) {
 
-        String sql = "SELECT account_name, balance, account_id, pin FROM accounts WHERE account_id = ?";
+        String sql = "SELECT account_name, balance, account_id, pin_hash FROM accounts WHERE account_id = ?";
 
-        try (Connection con = connect()) {
+        try (Connection con = openConnection()) {
 
             if (con == null) {
                 return null;
@@ -43,8 +43,8 @@ public class Database {
                 try (ResultSet result = stmt.executeQuery()) {
 
                     if (result.next()) {
-                        String storedPin = result.getString("pin");
-                        if(accountPin.equals(storedPin)) {
+                        String storedPinHash = result.getString("pin_hash");
+                        if(PasswordHasher.verifyPassword(accountPin, storedPinHash)) { 
 
                             String accountName = result.getString("account_name");
                             BigDecimal accountBalance = result.getBigDecimal("balance");
@@ -71,10 +71,10 @@ public class Database {
         return null;
     }
 
-    public boolean updateBalance(String accountId, BigDecimal newBalance) {
+    public boolean updateAccountBalance(String accountId, BigDecimal newBalance) {
         String sql = "UPDATE accounts SET balance = ? WHERE account_id = ?";
 
-        try (Connection con = connect()) {
+        try (Connection con = openConnection()) {
             if (con == null) {
                 System.out.println("Database Connection Failed!");
                 return false;
