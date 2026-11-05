@@ -4,6 +4,10 @@ target/
 # Java compiled files
 *.class
 
+# Other build output
+build/
+out/
+
 # Logs
 *.log
 

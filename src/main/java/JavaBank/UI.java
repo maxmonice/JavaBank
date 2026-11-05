@@ -18,9 +18,6 @@ public class UI {
         }
     }
 
-    private BankAccount signup() {
-        
-    }
     private BankAccount login() {
         System.out.println("===== Welcome To Polarity Bank! =====");
 
