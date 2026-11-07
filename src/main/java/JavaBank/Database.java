@@ -7,13 +7,14 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import JavaBank.Exceptions.*;
 public class Database {
 
     private String url = "jdbc:mysql://localhost:3306/JavaBank";
     private String username = "root";
     private String password = "";
 
-    public Connection openConnection() {
+    public Connection openConnection() throws SQLException{
 
         try {
             Connection con = DriverManager.getConnection(url, username, password);
@@ -26,7 +27,7 @@ public class Database {
         }
     }
 
-    public BankAccount authenticateAccount(String accountId, String accountPin) {
+    public BankAccount authenticateAccount(String accountId, String accountPin) throws SQLException, AccountNotFoundException, InvalidPinException {
 
         String sql = "SELECT account_name, balance, account_id, pin_hash FROM accounts WHERE account_id = ?";
 
@@ -53,13 +54,11 @@ public class Database {
                             return new BankAccount(accountName, accountBalance, id);
                         }
                         else{
-                            System.out.println("Wrong Pin Entered, Please Try Again");
-                            return null;
+                            throw new InvalidPinException("Invalid Pin, Please Try Again!");
                         }
                     }
                     else {
-                        System.out.println("No Account Found, Please Try Again!");
-                        return null;
+                        throw new AccountNotFoundException("No Account Found, Please Try Again!");
                     }
                 }
             }

@@ -1,5 +1,8 @@
 package JavaBank;
+import java.sql.SQLException;
 import java.util.Scanner;
+
+import JavaBank.Exceptions.*;
 
 public class UI {
     private static final Scanner sc = new Scanner(System.in);
@@ -8,29 +11,29 @@ public class UI {
     public void startBankingInterface() {
         boolean isRunning = true;
         while (isRunning) {
-            BankAccount account = login();
-            if (account == null) {
-                System.out.println("Invalid Account ID or PIN!");
-
-            } else {
+            try {
+                BankAccount account = login();
                 showAccountMenu(account);
+            } 
+            catch(AuthenticationException e){
+                System.out.println(e.getMessage());
+            } 
+            catch(SQLException e) {
+                System.out.println("A Database Error Has Occured! " + e.getMessage());
             }
-        }
     }
+}
 
-    private BankAccount login() {
-        System.out.println("===== Welcome To Polarity Bank! =====");
+    private BankAccount login() throws SQLException, AuthenticationException {
+        System.out.println("===== Welcome To JavaBank! =====");
 
         System.out.print("Please Enter Your Account ID: ");
         String accountId = sc.nextLine();
 
         System.out.print("Please Enter Your 6-Digit Pin: ");
         String accountPin = sc.nextLine();
-        if (!accountPin.matches("\\d{6}")) {
-            System.out.println("PIN must contain exactly 6 digits.");
-            return null;
-        }
 
+        if (!accountPin.matches("\\d{6}")) throw new InvalidPinFormatException("Invalid Pin Format! Must be 6 Digits Long");
         return db.authenticateAccount(accountId, accountPin);
     }
 
