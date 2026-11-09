@@ -8,9 +8,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 
 import JavaBank.Exceptions.*;
+
 public class Database {
 
-    private String url = "jdbc:mysql://localhost:3306/JavaBank";
+    private String url = "jdbc:mysql://localhost:3306/javabank";
     private String username = "root";
     private String password = "";
 
