@@ -1,5 +1,4 @@
-
-package JavaBank;
+package com.javabank.security;
 
 import org.bouncycastle.crypto.generators.Argon2BytesGenerator;
 import org.bouncycastle.crypto.params.Argon2Parameters;

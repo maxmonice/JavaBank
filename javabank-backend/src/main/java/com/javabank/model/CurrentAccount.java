@@ -1,4 +1,4 @@
-package JavaBank;
+package com.javabank.model;
 
 public class CurrentAccount {
     

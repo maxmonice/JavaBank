@@ -11,6 +11,9 @@ public class UI {
     public void startBankingInterface() {
         boolean isRunning = true;
         while (isRunning) {
+            if (!sc.hasNextLine()) {
+                break;
+            }
             try {
                 BankAccount account = login();
                 showAccountMenu(account);

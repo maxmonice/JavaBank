@@ -1,4 +1,4 @@
-package JavaBank;
+package com.javabank.model;
 import java.math.BigDecimal;
 
 public class BankAccount {

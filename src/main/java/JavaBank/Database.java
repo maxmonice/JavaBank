@@ -11,21 +11,13 @@ import JavaBank.Exceptions.*;
 
 public class Database {
 
-    private String url = "jdbc:mysql://localhost:3306/javabank";
-    private String username = "root";
-    private String password = "";
+    private final String url = "jdbc:mysql://localhost:3306/javabank";
+    private final String username = "root";
+    private final String password = "";
 
     public Connection openConnection() throws SQLException{
 
-        try {
-            Connection con = DriverManager.getConnection(url, username, password);
-            return con;
-
-        } catch (SQLException e) {
-            System.out.println("Database Connection Failed!");
-            e.printStackTrace();
-            return null;
-        }
+        return DriverManager.getConnection(url, username, password);
     }
 
     public BankAccount authenticateAccount(String accountId, String accountPin) throws SQLException, AccountNotFoundException, InvalidPinException {
@@ -33,10 +25,6 @@ public class Database {
         String sql = "SELECT account_name, balance, account_id, pin_hash FROM accounts WHERE account_id = ?";
 
         try (Connection con = openConnection()) {
-
-            if (con == null) {
-                return null;
-            }
 
             try (PreparedStatement stmt = con.prepareStatement(sql)) {
 
@@ -64,11 +52,7 @@ public class Database {
                 }
             }
 
-        } catch (SQLException e) {
-            e.printStackTrace();
         }
-
-        return null;
     }
 
     public boolean updateAccountBalance(String accountId, BigDecimal newBalance) {

@@ -1,12 +1,12 @@
 # JavaBank - Database Setup
 
 -- Create the database
-CREATE DATABASE IF NOT EXISTS JavaBank
+CREATE DATABASE IF NOT EXISTS javabank
     CHARACTER SET utf8mb4
     COLLATE utf8mb4_general_ci;
 
 -- Select the database
-USE JavaBank;
+USE javabank;
 
 -- Create the accounts table
 CREATE TABLE IF NOT EXISTS accounts (
