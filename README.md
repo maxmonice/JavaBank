@@ -1,275 +1,143 @@
-# Polarity Bank
+# JavaBank
 
-Polarity Bank is an educational banking application built with Java, Spring Boot, and MariaDB/MySQL. The project started as a Java console-based banking application using object-oriented programming (OOP) and JDBC, and has since expanded to include a Spring Boot backend for REST API development.
+**JavaBank** is a full-stack banking application developed to demonstrate backend engineering, database management, secure authentication, and modern web application development.
 
-The project serves as a practical learning experience in Java development, backend architecture, database integration, RESTful APIs, build tooling, and authentication security.
+Originally developed as a Java console-based application, the project is being restructured into a full-stack system using **Spring Boot** for the backend, **React** for the frontend, and **MariaDB** for persistent data storage.
 
-> **Status:** In development  
-> **Purpose:** Educational project. It is not production-ready banking software. Do not use real account credentials or financial data.
-
-## Current Features
-
-### Banking Application
-- Account verification using an account ID and PIN
-- Balance inquiry
-- Deposit and withdrawal workflows
-- Java-to-database connectivity through JDBC
-- Parameterized SQL queries using prepared statements
-- Monetary values represented with `BigDecimal`
-- Database setup script with a six-digit PIN format constraint
-
-### Spring Boot Backend
-- Integrated Spring Boot backend alongside the original Java banking application
-- REST API development using Spring MVC
-- HTTP request handling through controller classes
-- Endpoint mapping using annotations such as `@GetMapping` and `@PostMapping`
-- Centralized application startup through the Spring Boot application class
-- Maven-based dependency management and build workflow
-
-Features and implementation details may change as development continues.
+The project emphasizes clean architecture, object-oriented programming, RESTful API design, data integrity, and application security.
 
 ## Tech Stack
 
-| Technology | Purpose |
-|---|---|
-| **Java 25** | Application logic and object-oriented programming |
-| **Spring Boot** | Backend application framework |
-| **Spring Web** | REST API development and HTTP request handling |
-| **Maven** | Dependency management and build lifecycle |
-| **MariaDB / MySQL** | Relational database management |
-| **JDBC** | Database connectivity for the original console application |
-| **MariaDB Connector/J or MySQL Connector/J** | Database driver |
-| **XAMPP** | Local database environment |
+### Backend
+- **Java** – Primary programming language
+- **Spring Boot** – Backend application framework
+- **Spring Web** – RESTful API development
+- **Spring Data JPA** – Database access and persistence
+- **Maven** – Dependency and build management
+- **Jakarta Bean Validation** – Request validation
+
+### Frontend
+- **React** – User interface development
+- **TypeScript** – Frontend programming language
+
+### Database
+- **MariaDB** – Relational database management system
 
 ## Project Structure
 
-The project is evolving toward a backend-oriented architecture. The following represents its current organization at a high level:
-
 ```text
-java-bank/
-├── pom.xml
-├── database/
-│   └── setup.sql
-├── src/
-│   └── main/
-│       └── java/
-│           ├── JavaBank/
-│           │   ├── Program.java
-│           │   ├── UI.java
-│           │   ├── BankAccount.java
-│           │   └── Database.java
-│           │
-│           └── com/
-│               └── javabank/
-│                   └── JavabankBackendApplication.java
+JavaBank/
+├── backend/
+│   ├── src/
+│   │   ├── main/
+│   │   │   ├── java/
+│   │   │   └── resources/
+│   │   └── test/
+│   └── pom.xml/
+│
+├── frontend/
 │
 ├── .gitignore
+├── LICENSE
 └── README.md
 ```
 
-The structure above is representative. Update it as additional packages and classes are introduced.
+## Architecture
 
-Maven generates build output in `target/`, which should not be committed to Git.
+JavaBank follows a client-server architecture:
+
+```text
+React Frontend
+      |
+      | HTTP / JSON
+      v
+Spring Boot REST API
+      |
+      | Spring Data JPA
+      v
+MariaDB Database
+```
+
+The frontend communicates with the backend through HTTP requests. The backend handles application logic, request validation, authentication, and database operations.
+
+## Planned Features
+
+- Account registration and authentication
+- Secure PIN/password hashing
+- Account balance management
+- Deposits and withdrawals
+- Transaction history
+- Account information management
+- Input validation and error handling
+- RESTful API endpoints
 
 ## Getting Started
 
-### 1. Install the Requirements
+### Prerequisites
 
-Install the following:
+Make sure you have the following installed:
 
-- [Java JDK](https://www.oracle.com/java/technologies/downloads/)
-- [Apache Maven](https://maven.apache.org/download.cgi)
-- [XAMPP](https://www.apachefriends.org/) or another compatible MariaDB/MySQL server
-- Git, if you want to clone the repository
+- Java Development Kit (JDK)
+- Apache Maven
+- MariaDB Server
+- Node.js and npm (for frontend development)
 
-Verify Java and Maven are available in your terminal:
+### Backend Setup
 
-```powershell
-java -version
-mvn -version
-```
+1. Clone the repository:
 
-If you recently changed Windows environment variables, restart VS Code and its terminals so they inherit the updated `PATH`.
+   ```bash
+   git clone https://github.com/maxmonice/JavaBank.git
+   ```
 
-### 2. Clone the Repository
+2. Navigate to the backend directory:
 
-```bash
-git clone <YOUR_REPOSITORY_URL>
-cd java-bank
-```
+   ```bash
+   cd JavaBank/backend
+   ```
 
-Replace `<YOUR_REPOSITORY_URL>` with the repository's actual URL.
+3. Configure your database connection in `src/main/resources/application.properties`.
 
-### 3. Start the Database Server
+4. Create the required database in MariaDB.
 
-For a typical XAMPP setup, open the XAMPP Control Panel and start **MySQL** (which may run MariaDB underneath).
+5. Build the application:
 
-### 4. Set Up the Database
+   ```bash
+   mvn clean install
+   ```
 
-Run the SQL script at `database/setup.sql`.
+6. Run the Spring Boot application:
 
-**Using the MySQL/MariaDB command-line client:**
+   ```bash
+   mvn spring-boot:run
+   ```
 
-```sql
-SOURCE C:/path/to/java-bank/database/setup.sql;
-```
+The backend will run on the configured application port.
 
-**Using phpMyAdmin:**
+### Frontend Setup
 
-1. Open `http://localhost/phpmyadmin`.
-2. Open the **SQL** tab.
-3. Paste the contents of `database/setup.sql`.
-4. Execute the script.
+Frontend setup instructions will be added once the React application has been initialized.
 
-The script creates the `bank` database and `accounts` table if they do not already exist.
+## Security
 
-> **Important:** `CREATE TABLE IF NOT EXISTS` does not update an existing table's schema. Use a deliberate migration when modifying an existing database.
+Security is an important consideration in JavaBank's development.
 
-### 5. Configure the Database Connection
+The project aims to incorporate:
 
-Check the JDBC URL and credentials in the database connection code.
+- Password/PIN hashing using Argon2id
+- Parameterized database operations
+- Server-side input validation
+- Secure handling of application credentials
+- Proper authentication and authorization mechanisms
 
-A local setup may resemble:
+## Development Status
 
-```java
-private String url = "jdbc:mariadb://localhost:3306/bank";
-private String username = "root";
-private String password = "";
-```
+<text>JavaBank is currently under active development.</text>
 
-Use the URL scheme corresponding to the JDBC driver declared in `pom.xml`.
+The project is undergoing a transition from its original Java console implementation to a modular full-stack architecture.
 
-Do not commit real database credentials or other secrets to Git. Prefer environment variables or another secrets-management mechanism.
-
-## Running the Application
-
-### Original Java Console Application
-
-The original banking application can be launched through Maven:
-
-```powershell
-mvn org.codehaus.mojo:exec-maven-plugin:3.5.0:java "-Dexec.mainClass=JavaBank.Program"
-```
-
-This executes the console application using Maven's runtime classpath.
-
-### Spring Boot Backend
-
-The Spring Boot backend provides the foundation for exposing banking functionality through REST API endpoints.
-
-To start the backend, run:
-
-```powershell
-mvn spring-boot:run
-```
-
-Alternatively, if the Maven Wrapper is available:
-
-```powershell
-.\mvnw.cmd spring-boot:run
-```
-
-Once the application starts successfully, the backend is accessible locally at:
-
-```text
-http://localhost:8080
-```
-
-For example, a mapped endpoint such as `/` can be accessed through:
-
-```text
-http://localhost:8080/
-```
-
-Spring Boot handles incoming HTTP requests and routes them to the appropriate controller methods based on their request mappings and HTTP methods.
-
-### Building the Project
-
-To compile and package the project:
-
-```powershell
-mvn package
-```
-
-Maven compiles the source code, runs configured tests, and packages the application into a JAR under `target/`.
-
-The `package` command does not automatically start the Spring Boot application.
-
-## Database Schema
-
-The current setup script creates the following table:
-
-| Column | Type | Purpose |
-|---|---|---|
-| `account_id` | `VARCHAR(20)` | Account identifier and primary key |
-| `account_name` | `VARCHAR(100)` | Account holder's name |
-| `pin` | `VARCHAR(6)` | Currently stores a six-digit PIN as text |
-| `balance` | `DECIMAL(12, 2)` | Account balance, defaulting to `0.00` |
-
-The schema uses `utf8mb4` with `utf8mb4_general_ci` and the InnoDB storage engine.
-
-### PIN Format Constraint
-
-The table includes:
-
-```sql
-CONSTRAINT chk_pin_format
-CHECK (pin REGEXP '^[0-9]{6}$')
-```
-
-This database-level constraint restricts the PIN to exactly six numeric characters.
-
-Storing the PIN as `VARCHAR(6)` instead of an integer preserves leading zeros, such as `004281`.
-
-**Planned security change:** Once Argon2id is implemented, the database should store the encoded PIN hash rather than the raw PIN. This will require updating the database schema and authentication logic together.
-
-## Security Roadmap
-
-The project is still under development. Planned improvements include:
-
-- [ ] **Argon2id PIN hashing** — replace plaintext PIN storage with secure password hashing.
-- [ ] **Unique random salts** — generate a cryptographically secure salt for each account.
-- [ ] **Optional pepper from configuration** — keep any pepper outside the database and source control.
-- [ ] **Login rate limiting and temporary lockouts** — reduce repeated authentication attempts.
-- [ ] **Safer secrets configuration** — remove hardcoded database credentials.
-- [ ] **Database transaction improvements** — ensure money movement operations are atomic.
-- [ ] **Automated testing** — cover authentication, invalid inputs, and database failures.
-
-These are planned improvements, not claims that the protections have already been implemented.
-
-## Future Development
-
-The project is gradually moving toward a full-stack architecture.
-
-Potential future improvements include:
-
-- **React frontend** — create a web-based user interface for banking operations.
-- **REST API integration** — expose banking functionality through Spring Boot controllers.
-- **Spring Data JPA** — simplify database persistence and entity management.
-- **Authentication and authorization** — implement secure authentication and access control.
-- **Cloud deployment** — explore deploying the backend and database to cloud infrastructure.
-
-## Development Notes
-
-- Use `BigDecimal` for monetary calculations instead of `double`.
-- Use prepared statements for SQL queries containing user input.
-- Close JDBC resources reliably using try-with-resources.
-- Never store real financial data in this educational project.
-- Update database scripts, application code, and documentation together when changing the schema.
-- Keep generated files such as `target/`, compiled `.class` files, and local secrets out of Git.
-
-## Contributing
-
-1. Clone the repository and create a branch for your changes.
-2. Make a focused change.
-3. Run the application and relevant tests locally.
-4. Update documentation when application behavior or database structure changes.
-5. Commit and push your changes.
+Features, architecture, and documentation will evolve as development progresses.
 
 ## License
 
-No license has been specified yet. Unless a license is added to the repository, others should not assume they have permission to redistribute or reuse this project.
-
----
-
-Made for learning Java, backend development, OOP, SQL, REST APIs, and secure application development.
+This project is distributed under the license included in this repository. See [LICENSE](LICENSE) for details.
